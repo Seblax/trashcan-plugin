@@ -1,0 +1,17 @@
+name: trashcan
+version: '1.0-SNAPSHOT'
+main: org.seblax.Trashcan
+api-version: '1.21'
+authors: [ Seblax_ ]
+website: seblax.sytes.net
+commands:
+  trash:
+    description: Clear your inventory items
+  trashcan:
+    description: Clear your inventory items
+  basura:
+    description: Clear your inventory items
+  mierda:
+    description: Clear your inventory items
+  shit:
+    description: Clear your inventory items
