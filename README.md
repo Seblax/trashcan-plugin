@@ -7,6 +7,7 @@ A lightweight Minecraft plugin that introduces a simple, user-friendly **trash c
 - ✅ Add a trash can GUI with a command or item
 - 🧹 Instantly delete items by placing them inside
 - 🌍 Supports multiple Minecraft versions (1.xx+)
+- 🎨 Fully customizable messages
 
 ## 📦 Installation
 
@@ -23,7 +24,7 @@ A lightweight Minecraft plugin that introduces a simple, user-friendly **trash c
 ## 🌟 Future Features
 
 - 🔒 Optional permissions for who can use the trash can  
-- 🎨 Fully customizable messages and interface  
+- 🎨 Fully customizable interface  
 
 ## 📜 License
 
