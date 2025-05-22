@@ -63,7 +63,7 @@ public class TrashListener implements Listener {
     }
 
     private void deleteMessage(Player player){
-        player.sendMessage(Messages.getRandomMessage());
+        player.sendMessage(Trashcan.MESSAGES.getRandomMessage());
         player.playSound(player,Sound.BLOCK_NOTE_BLOCK_BANJO,1f,1f);
         player.playSound(player,Sound.ENTITY_PLAYER_SPLASH_HIGH_SPEED,1f,1f);
 
