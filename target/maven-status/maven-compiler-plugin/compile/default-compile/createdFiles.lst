@@ -1,7 +1,10 @@
 org\seblax\utils\Head.class
 org\seblax\Trash.class
 org\seblax\TrashListener.class
+org\seblax\utils\DataFile.class
+org\seblax\utils\Triple.class
 org\seblax\utils\Item.class
 org\seblax\utils\Messages.class
 org\seblax\Trashcan.class
+org\seblax\utils\Message.class
 org\seblax\utils\RainbowParticleDust.class
