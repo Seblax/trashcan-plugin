@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
-import org.seblax.utils.Messages;
 import org.seblax.utils.RainbowParticleDust;
 
 public class TrashListener implements Listener {
@@ -21,12 +20,12 @@ public class TrashListener implements Listener {
             int slot = e.getRawSlot();
             Player player = (Player) e.getWhoClicked();
 
-            if((slot < 8 || slot > 36 || slot % 9 == 0 || slot % 9 == 8) && slot < 45) {
+            if(Trashcan.UI_CONFIGURATION.isUiSlot(slot)) {
                 e.setCancelled(true);
 
-                if (slot == 44){
+                if (Trashcan.UI_CONFIGURATION.canClose(slot)){
                     player.closeInventory();
-                }else if(slot == 0){
+                }else if(Trashcan.UI_CONFIGURATION.canErase(slot)){
                     if(ClearInventory(e.getInventory())){
                         deleteMessage(player);
                     };
@@ -38,8 +37,8 @@ public class TrashListener implements Listener {
 
     private boolean ClearInventory(Inventory inv){
         boolean object = false;
-        for(int i = 10; i < 34 + 1; i ++){
-            if(i % 9 != 0 && i % 9 != 8) {
+        for(int i = 0; i < Trashcan.UI_CONFIGURATION.getSizeLevel(); i ++){
+            if(!Trashcan.UI_CONFIGURATION.isUiSlot(i)) {
                 object |= !(inv.getItem(i) == null);
                 inv.setItem(i, null);
             }
@@ -50,8 +49,7 @@ public class TrashListener implements Listener {
     @EventHandler
     public void onClose(InventoryCloseEvent e) {
         if(ChatColor.translateAlternateColorCodes( '&', e.getView().getTitle()).equalsIgnoreCase(Trash.TRASHCAN_NAME)){
-            if(e.getPlayer() instanceof Player) {
-                Player player = (Player) e.getPlayer();
+            if(e.getPlayer() instanceof Player player) {
                 if(ClearInventory(e.getInventory())){
                     deleteMessage(player);
                 }else {

@@ -1,10 +1,14 @@
+org\seblax\ui\ConfigurationUI.class
 org\seblax\utils\Head.class
 org\seblax\Trash.class
+org\seblax\ui\SlotUI.class
+org\seblax\utils\Triple.class
+org\seblax\ui\ItemUI.class
+org\seblax\messages\Message.class
+org\seblax\utils\Parser.class
 org\seblax\TrashListener.class
 org\seblax\utils\DataFile.class
-org\seblax\utils\Triple.class
 org\seblax\utils\Item.class
-org\seblax\utils\Messages.class
+org\seblax\messages\Messages.class
 org\seblax\Trashcan.class
-org\seblax\utils\Message.class
 org\seblax\utils\RainbowParticleDust.class

@@ -1,5 +1,6 @@
 package org.seblax.utils;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -99,6 +100,14 @@ public class DataFile {
         return configFile.get(key);
     }
 
+    public synchronized boolean getBoolean(String key) {
+        return configFile.getBoolean(key);
+    }
+
+    public synchronized String getString(String key) {
+        return configFile.getString(key);
+    }
+
     public synchronized <E> List<E> getList(String key) {
         List<?> rawList = configFile.getList(key);
         if (rawList == null) return Collections.emptyList();
@@ -180,6 +189,10 @@ public class DataFile {
 
     public int getKeyCount() {
         return configFile.getKeys(true).size();
+    }
+
+    public ConfigurationSection getConfigurationSection(String s) {
+        return this.getConfigFile().getConfigurationSection(s);
     }
 
     /**

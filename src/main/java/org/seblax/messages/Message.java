@@ -1,10 +1,11 @@
-package org.seblax.utils;
+package org.seblax.messages;
 
 import org.bukkit.ChatColor;
+import org.seblax.utils.Triple;
 
 import java.util.List;
 
-public class Message extends Triple<String,String,ChatColor>{
+public class Message extends Triple<String,String,ChatColor> {
     public static final String ITEMS = String.format("%s%s Items %s",ChatColor.GOLD,ChatColor.BOLD, ChatColor.RESET);
 
     Message(String prefix, String suffix, ChatColor color) {

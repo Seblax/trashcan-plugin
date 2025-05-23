@@ -29,11 +29,17 @@ public class Head {
     }
 
     static public ItemStack getPlayerHeadByURL(String url){
-        return getPlayerHeadByURL(url,"",null);
+        return getPlayerHeadByURL(url,"");
     }
 
     static public ItemStack getPlayerHeadByURL(String url,String name){
-        return getPlayerHeadByURL(url,name,null);
+        return getPlayerHeadByURL(url,name, List.of());
+    }
+    static public ItemStack getPlayerHeadByURL(String url,String name, List<String> lore){
+        String[] arrayLore = new String[lore.size()];
+
+        lore.forEach( x -> arrayLore[lore.indexOf(x)] = x);
+        return getPlayerHeadByURL(url,name, arrayLore);
     }
 
     static public ItemStack getPlayerHeadByURL(String url, String name, String[] lore){

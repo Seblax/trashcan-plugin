@@ -5,15 +5,23 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Item {
 
     public static ItemStack newItem(Material m){
-        return newItem(m," ", null);
+        return newItem(m," ");
     }
 
     public static ItemStack newItem(Material m, String itemName){
-        return newItem(m,itemName, null);
+        return newItem(m,itemName, List.of());
+    }
+
+    public static ItemStack newItem(Material m, String itemName, List<String> lore){
+        String[] arrayLore = new String[lore.size()];
+
+        lore.forEach( x -> arrayLore[lore.indexOf(x)] = x);
+        return newItem(m,itemName, arrayLore);
     }
 
     public static ItemStack newItem(Material m, String itemName, String[] lore){

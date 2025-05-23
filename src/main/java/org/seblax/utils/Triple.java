@@ -8,7 +8,7 @@ public class Triple<E,F,G>{
     private F y;
     private G z;
 
-    Triple(E x, F y, G z){
+    protected Triple(E x, F y, G z){
         this.x = x;
         this.y = y;
         this.z = z;

@@ -9,31 +9,28 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.seblax.ui.SlotUI;
 import org.seblax.utils.Head;
 import org.seblax.utils.Item;
 
+import java.util.List;
+import java.util.Map;
+
 public class Trash implements CommandExecutor {
 
-    public static final String TRASHCAN_NAME = ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Trashcan";
-    public static final ItemStack BLACK_GLASS_PANE = glassPane(Material.BLACK_STAINED_GLASS_PANE);
-    public static final ItemStack GRAY_GLASS_PANE = glassPane(Material.GRAY_STAINED_GLASS_PANE);
+    public static final String TRASHCAN_NAME = Trashcan.UI_CONFIGURATION.getTrashcanName();
+    public static final int TRASHCAN_SIZE = Trashcan.UI_CONFIGURATION.getSizeLevel();
+    public static final List<SlotUI> TRASHCAN_UI_ITEMS = Trashcan.UI_CONFIGURATION.getInventory();
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        if(commandSender instanceof Player) {
-            Player player = (Player) commandSender;
+        if(commandSender instanceof Player player) {
+            Inventory inventory = Bukkit.createInventory(player, TRASHCAN_SIZE, TRASHCAN_NAME);
 
-            Inventory inventory = Bukkit.createInventory(player, 45, TRASHCAN_NAME);
-
-            inventory.setItem(0, trashCanItem());
-            inventory.setItem(44, barrierItem());
-
-            for(int i = 0; i < 44; i ++){
-                if(i != 0 && (i < 8 || i > 36 || i % 9 == 0 || i % 9 == 8)) {
-                    ItemStack item = i % 2 == 0 ? BLACK_GLASS_PANE : GRAY_GLASS_PANE;
-                    inventory.setItem(i, item);
-                }
+            for (SlotUI slot: TRASHCAN_UI_ITEMS){
+                if(slot.getPosition() > TRASHCAN_SIZE - 1) continue;
+                inventory.setItem(slot.getPosition(), slot.getItemStack());
             }
 
             player.openInventory(inventory);
