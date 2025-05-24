@@ -23,10 +23,10 @@ public class DataFile {
     private final boolean empty;
 
     /**
-     * Initializes a new FileData instance.
+     * Loads or creates a YAML configuration file within the plugin's data folder.
      *
-     * @param fileName        The name of the YAML file.
-     * @param plugin The directory where the file is stored.
+     * @param fileName The base name of the file (without .yml extension).
+     * @param plugin   The plugin instance used to locate the data folder.
      * @throws IllegalArgumentException if the plugin directory is null.
      */
     public DataFile(String fileName, Plugin plugin) {
@@ -40,7 +40,7 @@ public class DataFile {
         this.file = new File(pluginDirectory, fileName);
         empty = !this.file.exists();
 
-        // Create file if it does not exist
+        // Create the file if it doesn't exist
         if (!file.exists()) {
             try {
                 if (file.createNewFile()) {
@@ -54,36 +54,43 @@ public class DataFile {
         this.configFile = YamlConfiguration.loadConfiguration(file);
     }
 
-    public static DataFile builder(String fileName, JavaPlugin plugin) {;
-        return new DataFile(fileName,plugin);
+    /**
+     * Static builder to create a DataFile instance.
+     */
+    public static DataFile builder(String path, JavaPlugin plugin){
+        return new DataFile(path, plugin);
     }
 
+    /**
+     * Returns the loaded configuration file.
+     */
     public YamlConfiguration getConfigFile() {
         return configFile;
     }
 
     /**
-     * Checks if the file exists.
-     *
-     * @return true if the file exists, false otherwise.
+     * Checks whether the file exists on disk.
      */
     public boolean exists() {
         return file.exists();
     }
 
-    public String getPath(){
+    /**
+     * Returns the full path of the configuration file.
+     */
+    public String getPath() {
         return this.file.getPath();
     }
 
-    public boolean isEmpty(){
+    /**
+     * Returns true if the file did not exist at load time.
+     */
+    public boolean isEmpty() {
         return this.empty;
     }
 
     /**
-     * Saves a key-value pair to the YAML file.
-     *
-     * @param key   The configuration key.
-     * @param value The value to be stored.
+     * Sets a key-value pair and saves the configuration.
      */
     public synchronized void set(String key, Object value) {
         configFile.set(key, value);
@@ -91,23 +98,29 @@ public class DataFile {
     }
 
     /**
-     * Retrieves a value from the YAML file.
-     *
-     * @param key The configuration key.
-     * @return The stored value, or null if the key is not found.
+     * Retrieves a value from the file by key.
      */
     public synchronized Object get(String key) {
         return configFile.get(key);
     }
 
+    /**
+     * Returns a boolean from the file.
+     */
     public synchronized boolean getBoolean(String key) {
         return configFile.getBoolean(key);
     }
 
+    /**
+     * Returns a string from the file.
+     */
     public synchronized String getString(String key) {
         return configFile.getString(key);
     }
 
+    /**
+     * Safely retrieves a list from the file. Returns empty list if the cast fails.
+     */
     public synchronized <E> List<E> getList(String key) {
         List<?> rawList = configFile.getList(key);
         if (rawList == null) return Collections.emptyList();
@@ -120,13 +133,8 @@ public class DataFile {
         }
     }
 
-
-
     /**
-     * Saves a key-int pair to the YAML file.
-     *
-     * @param key   The configuration key.
-     * @param value The value to be stored.
+     * Stores an integer value.
      */
     public synchronized void setInt(String key, Integer value) {
         configFile.set(key, value);
@@ -134,20 +142,14 @@ public class DataFile {
     }
 
     /**
-     * Retrieves a int value from the YAML file.
-     *
-     * @param key The configuration key.
-     * @return The stored value, or null if the key is not found.
+     * Returns an integer value.
      */
     public synchronized Integer getInt(String key) {
         return configFile.getInt(key);
     }
 
     /**
-     * Saves a key-double pair to the YAML file.
-     *
-     * @param key   The configuration key.
-     * @param value The value to be stored.
+     * Stores a double value.
      */
     public synchronized void setDouble(String key, Double value) {
         configFile.set(key, value);
@@ -155,48 +157,43 @@ public class DataFile {
     }
 
     /**
-     * Retrieves a double value from the YAML file.
-     *
-     * @param key The configuration key.
-     * @return The stored value, or null if the key is not found.
+     * Returns a double value.
      */
     public synchronized Double getDouble(String key) {
         return configFile.getDouble(key);
     }
 
     /**
-     * Retrieves a boolean value from the YAML file.
-     *
-     * @param path The value's path.
-     * @return True or false if the path is not found.
+     * Checks if a path exists in the configuration.
      */
-    public boolean contains(String path){
+    public boolean contains(String path) {
         return configFile.contains(path);
     }
 
     /**
-     * Retrieves a value from the YAML file with a default fallback.
-     *
-     * @param key          The configuration key.
-     * @param defaultValue The default value to return if the key is not found.
-     * @param <T>          The expected return type.
-     * @return The stored value or the default if the key does not exist.
+     * Retrieves a value or returns the default if the key does not exist.
      */
     public synchronized <T> T getOrDefault(String key, T defaultValue) {
         Object value = configFile.get(key);
         return (value != null) ? (T) value : defaultValue;
     }
 
+    /**
+     * Returns the total number of keys in the configuration.
+     */
     public int getKeyCount() {
         return configFile.getKeys(true).size();
     }
 
+    /**
+     * Returns a subsection of the configuration.
+     */
     public ConfigurationSection getConfigurationSection(String s) {
         return this.getConfigFile().getConfigurationSection(s);
     }
 
     /**
-     * Saves the current state of the YAML file.
+     * Saves the configuration to disk.
      */
     public synchronized void save() {
         try {
@@ -206,10 +203,12 @@ public class DataFile {
         }
     }
 
-    public void toConsole(String... messages){
-        for (String m: messages){
+    /**
+     * Logs messages to the console.
+     */
+    public void toConsole(String... messages) {
+        for (String m : messages) {
             LOGGER.info(m);
         }
     }
-
 }

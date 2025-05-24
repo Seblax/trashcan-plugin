@@ -11,6 +11,7 @@ import java.util.Random;
 public class Messages extends DataFile {
     public static final List<Message> DEFAULT_MESSAGES =
             List.of(
+                    // Predefined list of default messages used when no messages.yml exists.
                     Message.of("Poof! Your", "vanished like magic.", ChatColor.GREEN),
                     Message.of("Oops... your", "took a one-way trip to the void.", ChatColor.LIGHT_PURPLE),
                     Message.of("Your", "have been... liberated.", ChatColor.BLUE),
@@ -24,10 +25,11 @@ public class Messages extends DataFile {
             );
 
     /**
-     * Initializes a new FileData instance.
+     * Initializes a new Messages file.
+     * If the file is empty, default messages are generated automatically.
      *
-     * @param plugin The directory where the file is stored.
-     * @throws IllegalArgumentException if the plugin directory is null.
+     * @param plugin The plugin instance to locate the data folder.
+     * @throws IllegalArgumentException if the plugin is null.
      */
     public Messages(JavaPlugin plugin) {
         super("messages", plugin);
@@ -37,27 +39,23 @@ public class Messages extends DataFile {
             this.toConsole("============================================================",
                     "NEW MESSAGE.YML FILE CREATED IN " + this.getPath().toUpperCase(),
                     "============================================================");
-
         }
     }
 
+    /**
+     * Builds and returns a new instance of the Messages class.
+     *
+     * @param plugin The plugin instance to locate the data folder.
+     * @return a new Messages object.
+     */
     public static Messages builder(JavaPlugin plugin) {
         return new Messages(plugin);
     }
 
-
-    private void generateDefaultMessages() {
-        defaultCommentMessage();
-
-        int i = 0;
-        for (Message message : DEFAULT_MESSAGES) {
-            i++;
-            this.set(String.format("message%d", i),
-                    message.toList()
-            );
-        }
-    }
-
+    /**
+     * Adds detailed usage comments to the top of the messages.yml file,
+     * explaining how to define custom messages and their format.
+     */
     public void defaultCommentMessage() {
         YamlConfiguration config = this.getConfigFile();
 
@@ -81,6 +79,12 @@ public class Messages extends DataFile {
         this.save();
     }
 
+    /**
+     * Retrieves a random message from the messages.yml file.
+     * If only one message exists, it is returned directly.
+     *
+     * @return A formatted message string.
+     */
     public String getRandomMessage() {
         int i = this.getKeyCount();
 
@@ -92,5 +96,18 @@ public class Messages extends DataFile {
         int index = r.nextInt(i);
         Message message = Message.of(this.getList(String.format("message%d", index)));
         return message.toString();
+    }
+
+    // Generates and writes all default messages into the messages.yml file.
+    private void generateDefaultMessages() {
+        defaultCommentMessage();
+
+        int i = 0;
+        for (Message message : DEFAULT_MESSAGES) {
+            i++;
+            this.set(String.format("message%d", i),
+                    message.toList()
+            );
+        }
     }
 }

@@ -12,37 +12,59 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Utility class to create custom player heads using texture URLs.
+ */
 public class Head {
-    private static PlayerProfile getPlayerURL(String message){
+
+    /**
+     * Creates a dummy PlayerProfile with a custom skin URL.
+     *
+     * @param textureId The texture ID part of the URL (from Minecraft texture servers).
+     * @return A PlayerProfile with the skin applied.
+     */
+    private static PlayerProfile getPlayerURL(String textureId) {
         PlayerProfile playerProfile = Bukkit.createPlayerProfile(new UUID(0, 0));
-        URL skin = null;
+        URL skin;
 
         try {
-            skin = new URL("https://textures.minecraft.net/texture/" + message);
+            skin = new URL("https://textures.minecraft.net/texture/" + textureId);
         } catch (MalformedURLException e) {
-            throw new RuntimeException("Error al formar la URL de la skin:" + e);
+            throw new RuntimeException("Failed to create skin URL: " + e);
         }
 
         playerProfile.getTextures().setSkin(skin);
-
         return playerProfile;
     }
 
-    static public ItemStack getPlayerHeadByURL(String url){
-        return getPlayerHeadByURL(url,"");
+    /**
+     * Returns a custom player head with a texture and no name or lore.
+     */
+    public static ItemStack getPlayerHeadByURL(String url) {
+        return getPlayerHeadByURL(url, "");
     }
 
-    static public ItemStack getPlayerHeadByURL(String url,String name){
-        return getPlayerHeadByURL(url,name, List.of());
+    /**
+     * Returns a custom player head with a texture and display name.
+     */
+    public static ItemStack getPlayerHeadByURL(String url, String name) {
+        return getPlayerHeadByURL(url, name, List.of());
     }
-    static public ItemStack getPlayerHeadByURL(String url,String name, List<String> lore){
+
+    /**
+     * Returns a custom player head with a texture, display name, and lore list.
+     */
+    public static ItemStack getPlayerHeadByURL(String url, String name, List<String> lore) {
+//        String[] arrayLore = new String[lore.size()];
+//        lore.forEach(x -> arrayLore[lore.indexOf(x)] = x);
         String[] arrayLore = new String[lore.size()];
-
-        lore.forEach( x -> arrayLore[lore.indexOf(x)] = x);
-        return getPlayerHeadByURL(url,name, arrayLore);
+        return getPlayerHeadByURL(url, name, arrayLore);
     }
 
-    static public ItemStack getPlayerHeadByURL(String url, String name, String[] lore){
+    /**
+     * Returns a custom player head with a texture, display name, and lore array.
+     */
+    public static ItemStack getPlayerHeadByURL(String url, String name, String[] lore) {
         ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) playerHead.getItemMeta();
 
@@ -51,7 +73,6 @@ public class Head {
         meta.setLore(Arrays.stream(lore).toList());
 
         playerHead.setItemMeta(meta);
-
         return playerHead;
     }
 }
