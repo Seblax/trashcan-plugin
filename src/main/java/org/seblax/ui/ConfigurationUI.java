@@ -158,7 +158,8 @@ public class ConfigurationUI extends DataFile {
      * Checks whether a given slot has a UI element defined.
      */
     public boolean isUiSlot(int slot){
-        return this.inventory.stream().anyMatch(x -> x.position == slot);
+        return this.inventory.stream().anyMatch(x -> x.position == slot) &&
+                slot < this.getSizeLevel();
     }
 
     /**
