@@ -94,7 +94,7 @@ public class Messages extends DataFile {
 
         Random r = new Random();
         int index = r.nextInt(i);
-        Message message = Message.of(this.getList(String.format("message%d", index)));
+        Message message = Message.of(this.getList(String.format("message%d", index + 1)));
         return message.toString();
     }
 
